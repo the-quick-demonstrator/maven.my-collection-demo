@@ -3,10 +3,18 @@ package com.github.curriculeon;
 import java.util.Iterator;
 
 public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
+    private MyNode<SomeType> baseNode;
+
     public MyLinkedList() {
+        baseNode = new MyNode<SomeType>();
     }
 
     public MyLinkedList(SomeType... valuesToBePopulatedWith) {
+        MyNode currentNode = new MyNode<>();
+        for (SomeType adders : valuesToBePopulatedWith){
+            MyNode nxtNode = new MyNode(adders);
+            currentNode.setNext(nxtNode);
+        }
     }
 
     @Override
