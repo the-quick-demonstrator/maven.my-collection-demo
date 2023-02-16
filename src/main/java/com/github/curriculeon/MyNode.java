@@ -37,4 +37,8 @@ public class MyNode<SomeType> {
             System.out.println("NOOOOO");
         }
     }
+    public boolean hasNext(){
+        return next != null;
+    }
+
 }

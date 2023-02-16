@@ -19,32 +19,51 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
 
     @Override
     public void add(SomeType objectToAdd) {
-
+        MyNode<SomeType> currentNode = baseNode;
+        while (currentNode != null && currentNode.hasNext()){
+            currentNode = currentNode.getNext();
+        }
+        currentNode.setNext(new MyNode<>(objectToAdd));
     }
 
     @Override
     public void remove(SomeType objectToRemove) {
+        MyNode<SomeType> currentNode = baseNode;
+        while (currentNode != null && currentNode.hasNext() && !currentNode.getData().equals(objectToRemove)){
 
+            currentNode = currentNode.getNext();
+        }
     }
 
     @Override
-    public void remove(int indexOfObjectToRemove) {
-
-    }
+    public void remove(int indexOfObjectToRemove) {}//Should not exist for linked lists
 
     @Override
     public SomeType get(int indexOfElement) {
         return null;
-    }
+    } //Should not exist for linked lists
 
     @Override
     public Boolean contains(SomeType objectToCheckFor) {
-        return null;
+        MyNode<SomeType> currentNode = baseNode;
+        while (currentNode != null){
+            if (currentNode.getData().equals(objectToCheckFor)){
+                return true;
+            }
+            currentNode = currentNode.getNext();
+        }
+        return false;
     }
 
     @Override
     public Integer size() {
-        return null;
+        MyNode<SomeType> currentNode = baseNode;
+        int count = 0;
+        while (currentNode != null){
+            count++;
+        }
+
+        return count;
     }
 
     @Override

@@ -3,13 +3,14 @@ package com.github.curriculeon;
 import java.util.Iterator;
 
 public class MySet<SomeType> {
-    //private MyArrayList<SomeType> set;
+    private MyArrayList<SomeType> set;
     private SomeType[] array;
     int counter = 0;
 
     public MySet() {
-        array = (SomeType[]) new Object[10];
-        int counter = 0;
+        set = new MyArrayList<>();
+        //array = (SomeType[]) new Object[10];
+        //int counter = 0;
     }
 
     public MySet(SomeType[] valuesToBePopulatedWith) {//Object[] valuesToBePopulatedWith) {
@@ -31,7 +32,6 @@ public class MySet<SomeType> {
             }
             counter++;
         }
-
     }
 
     public void remove(SomeType objectToRemove) { // This should only remove one index
@@ -76,4 +76,5 @@ public class MySet<SomeType> {
     public Iterator<SomeType> iterator() {
         return null;
     }
+
 }

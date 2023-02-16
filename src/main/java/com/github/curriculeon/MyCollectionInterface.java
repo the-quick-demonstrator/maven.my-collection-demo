@@ -10,4 +10,5 @@ public interface MyCollectionInterface<SomeType> extends Iterable<SomeType> {
     SomeType get(int indexOfElement);
     Boolean contains(SomeType objectToCheckFor);
     Integer size();
+
 }
