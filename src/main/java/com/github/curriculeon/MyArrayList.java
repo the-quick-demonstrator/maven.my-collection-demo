@@ -88,11 +88,32 @@ public class MyArrayList<SomeType> implements MyCollectionInterface<SomeType> {
 
     @Override
     public Iterator<SomeType> iterator() {
-        return null;
+        return new MyArrayListIterator<>(this);
     }
 
     @Override
     public String toString() {
         return Arrays.toString(array);
+    }
+
+    private static class MyArrayListIterator<SomeType> implements Iterator<SomeType>{
+        private  MyArrayList<SomeType> list;
+
+        private int currentIndex;
+
+        public MyArrayListIterator(MyArrayList<SomeType> list){
+            this.list = list;
+            this.currentIndex = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < list.size();
+        }
+
+        @Override
+        public SomeType next() {
+            return list.get(currentIndex++);
+        }
     }
 }
