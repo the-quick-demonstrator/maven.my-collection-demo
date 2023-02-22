@@ -19,20 +19,56 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
 
     @Override
     public void add(SomeType objectToAdd) {
+        if (baseNode == null){
+            baseNode = new MyNode<SomeType>(objectToAdd);
+        }
+        else if (baseNode.getData() == null){
+            baseNode.setData(objectToAdd);
+        }
+        else{
         MyNode<SomeType> currentNode = baseNode;
         while (currentNode != null && currentNode.hasNext()){
             currentNode = currentNode.getNext();
         }
-        currentNode.setNext(new MyNode<>(objectToAdd));
+        currentNode.setNext(new MyNode<>(objectToAdd, null));
+        }
     }
 
     @Override
     public void remove(SomeType objectToRemove) {
-        MyNode<SomeType> currentNode = baseNode;
-        while (currentNode != null && currentNode.hasNext() && !currentNode.getData().equals(objectToRemove)){
-
-            currentNode = currentNode.getNext();
+        if (baseNode.getData().equals(objectToRemove)){
+            baseNode = baseNode.getNext();
         }
+        MyNode<SomeType> currentNode = baseNode;
+        //if (currentNode != null){
+            while(currentNode != null){
+                if (currentNode.getData().equals(objectToRemove)){
+                    if(currentNode.hasNext()){
+
+                    }
+                    else{
+                        currentNode = null;
+                    }
+                }
+                currentNode = currentNode.getNext();
+
+            }
+            /*
+            while (currentNode.getData() != null && currentNode.hasNext() && !currentNode.getData().equals(objectToRemove)){
+                if (currentNode.getData().equals(objectToRemove)){
+                    if (currentNode.hasNext()){
+                        currentNode.setNext(currentNode.getNext().getNext());
+                    }
+                    else{
+                        currentNode.setNext(null);
+                    }
+                    return;
+                }
+                currentNode = currentNode.getNext();
+            }
+
+             */
+        //}
     }
 
     @Override
@@ -40,17 +76,29 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
 
     @Override
     public SomeType get(int indexOfElement) {
+        int index = 0;
+        MyNode<SomeType> current = baseNode;
+        while(current != null){
+            if (index == indexOfElement){
+                return current.getData();
+            }
+            index++;
+            current = current.getNext();
+        }
+
         return null;
     } //Should not exist for linked lists
 
     @Override
     public Boolean contains(SomeType objectToCheckFor) {
-        MyNode<SomeType> currentNode = baseNode;
-        while (currentNode != null){
-            if (currentNode.getData().equals(objectToCheckFor)){
-                return true;
+        if (baseNode != null){
+            MyNode<SomeType> currentNode = baseNode;
+            while (currentNode != null){
+                if (currentNode.getData().equals(objectToCheckFor)){
+                    return true;
+                }
+                currentNode = currentNode.getNext();
             }
-            currentNode = currentNode.getNext();
         }
         return false;
     }
@@ -61,8 +109,8 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
         int count = 0;
         while (currentNode != null){
             count++;
+            currentNode = currentNode.getNext();
         }
-
         return count;
     }
 

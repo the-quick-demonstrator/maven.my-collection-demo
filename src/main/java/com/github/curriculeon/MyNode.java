@@ -31,11 +31,10 @@ public class MyNode<SomeType> {
     }
 
     public void setNext(MyNode<SomeType> next) {
-        try{
-            this.next = next;}
-        catch (Exception e){
-            System.out.println("NOOOOO");
+        if (next == this){
+            throw new IllegalArgumentException();
         }
+        this.next = next;
     }
     public boolean hasNext(){
         return next != null;
