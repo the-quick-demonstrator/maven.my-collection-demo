@@ -10,10 +10,9 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
     }
 
     public MyLinkedList(SomeType... valuesToBePopulatedWith) {
-        MyNode currentNode = new MyNode<>();
+        //MyNode currentNode = baseNode;
         for (SomeType adders : valuesToBePopulatedWith){
-            MyNode nxtNode = new MyNode(adders);
-            currentNode.setNext(nxtNode);
+            this.add(adders);
         }
     }
 
@@ -36,43 +35,32 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
 
     @Override
     public void remove(SomeType objectToRemove) {
-        if (baseNode.getData().equals(objectToRemove)){
+        MyNode<SomeType> nodeToAdd = new MyNode<>();
+        nodeToAdd.setData(objectToRemove);
+        if (baseNode.getData() == objectToRemove) {
             baseNode = baseNode.getNext();
+            return;
         }
-        MyNode<SomeType> currentNode = baseNode;
-        //if (currentNode != null){
-            while(currentNode != null){
-                if (currentNode.getData().equals(objectToRemove)){
-                    if(currentNode.hasNext()){
-
-                    }
-                    else{
-                        currentNode = null;
-                    }
-                }
-                currentNode = currentNode.getNext();
-
+        MyNode<SomeType> current = baseNode;
+        while(current!=null&&current.getNext()!=null) {
+            MyNode<SomeType> next = current.getNext();
+            boolean isCorrectValue = next.getData().equals(objectToRemove);
+            if (isCorrectValue) {
+                MyNode<SomeType> swapped = next.getNext();
+                current.setNext(swapped);
+                break;
             }
-            /*
-            while (currentNode.getData() != null && currentNode.hasNext() && !currentNode.getData().equals(objectToRemove)){
-                if (currentNode.getData().equals(objectToRemove)){
-                    if (currentNode.hasNext()){
-                        currentNode.setNext(currentNode.getNext().getNext());
-                    }
-                    else{
-                        currentNode.setNext(null);
-                    }
-                    return;
-                }
-                currentNode = currentNode.getNext();
-            }
+            current = current.getNext();
 
-             */
-        //}
+        }
     }
 
     @Override
-    public void remove(int indexOfObjectToRemove) {}//Should not exist for linked lists
+    public void remove(int indexOfObjectToRemove) {
+        remove(get(indexOfObjectToRemove));
+
+
+    }
 
     @Override
     public SomeType get(int indexOfElement) {
@@ -87,18 +75,17 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
         }
 
         return null;
-    } //Should not exist for linked lists
+    }
 
     @Override
     public Boolean contains(SomeType objectToCheckFor) {
-        if (baseNode != null){
-            MyNode<SomeType> currentNode = baseNode;
-            while (currentNode != null){
-                if (currentNode.getData().equals(objectToCheckFor)){
-                    return true;
-                }
-                currentNode = currentNode.getNext();
+        MyNode<SomeType> currentNode = baseNode;
+        while (currentNode != null){
+            SomeType data = currentNode.getData();
+            if (data.equals(objectToCheckFor)){
+                return true;
             }
+            currentNode = currentNode.getNext();
         }
         return false;
     }
@@ -117,6 +104,17 @@ public class MyLinkedList<SomeType> implements MyCollectionInterface<SomeType>{
     @Override
     public Iterator<SomeType> iterator() {
         return new MyLinkedListIterator<>(this);
+    }
+
+    @Override
+    public String toString() {
+        String result = "List:";
+        MyNode<SomeType> current = baseNode;
+        while(current != null){
+            result += " "+current.getData().toString();
+            current = current.getNext();
+        }
+        return result;
     }
 
     private static class MyLinkedListIterator<SomeType> implements Iterator<SomeType> {

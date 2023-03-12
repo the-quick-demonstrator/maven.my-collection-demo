@@ -1,26 +1,58 @@
 package com.github.curriculeon;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
-public class MySet<SomeType> {
+public class MySet<SomeType> implements MyCollectionInterface<SomeType>{
     private MyArrayList<SomeType> set;
-    private SomeType[] array;
-    int counter = 0;
 
     public MySet() {
         set = new MyArrayList<>();
-        //array = (SomeType[]) new Object[10];
-        //int counter = 0;
     }
 
-    public MySet(SomeType[] valuesToBePopulatedWith) {//Object[] valuesToBePopulatedWith) {
-        array = valuesToBePopulatedWith;
-        int counter = array.length;
-
+    public MySet(SomeType[] valuesToBePopulatedWith) {
+        set = new MyArrayList<>(valuesToBePopulatedWith);
     }
 
-    public void add(SomeType object){
-        if (!this.contains(object)){
+    @Override
+    public void add(SomeType objectToAdd) {
+        if(!set.contains(objectToAdd)){
+            set.add(objectToAdd);
+        }
+    }
+
+    @Override
+    public void remove(SomeType objectToRemove) {
+        set.remove(objectToRemove);
+    }
+
+    @Override
+    public void remove(int indexOfObjectToRemove) {
+        set.remove(indexOfObjectToRemove);
+    }
+
+    @Override
+    public SomeType get(int indexOfElement) {
+        return set.get(indexOfElement);
+    }
+
+    @Override
+    public Boolean contains(SomeType objectToCheckFor) {
+        return set.contains(objectToCheckFor);
+    }
+
+    @Override
+    public Integer size() {
+        return set.size();
+    }
+
+    @Override
+    public Iterator<SomeType> iterator() {
+        return null;
+    }
+
+   /* public void add(SomeType object){
+        if (!set.contains(object)){
             if (counter >= array.length){
                 SomeType [] update = (SomeType[]) new Object[array.length+5];
                 System.arraycopy(array,0, update, 0,array.length);
@@ -55,6 +87,11 @@ public class MySet<SomeType> {
 
     }
 
+    @Override
+    public void remove(int indexOfObjectToRemove) {
+
+    }
+
     public SomeType get(int indexOfElement) {
         return null;
     } //Should not exist for a set
@@ -73,8 +110,31 @@ public class MySet<SomeType> {
         return counter;
     }
 
+    @Override
     public Iterator<SomeType> iterator() {
-        return null;
+        return new MySetIterator<SomeType>(this);
     }
 
+    private static class MySetIterator<SomeType> implements Iterator<SomeType>{
+        private  MySet<SomeType> list;
+
+        private int currentIndex;
+
+        public MySetIterator(MySet<SomeType> list){
+            this.list = list;
+            this.currentIndex = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < list.size();
+        }
+
+        @Override
+        public SomeType next() {
+            return list.get(currentIndex++);
+        }
+    }
+
+    */
 }
